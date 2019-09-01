@@ -10,7 +10,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
 
-import AddColumnReducer from './reducers/addColumn-reducer';
+import BoardReducer from './reducers/board-reducer';
 
 const persistConfig = {
     key: 'root',
@@ -19,7 +19,7 @@ const persistConfig = {
 
 
 const rootReducer = combineReducers({
-    boardReducer: AddColumnReducer,
+    boardReducer: BoardReducer,
 
 });
 

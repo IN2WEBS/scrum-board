@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as allActions from './actions/allActions';
 import { Modal } from './components/modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './style.scss';
 
 const actions = {
@@ -35,14 +35,16 @@ class App extends Component {
     }
 
     render() {
+        const { taskOpen, newTitle, newDescription } = this.state;
+        const { boardReducer } = this.props;
+        
         return (
             <div className="App">
                 <div className="header">
                     <button className="add-column" onClick={() => this.props.addColumn()}>Add Column</button>
                 </div>
-
                 <div className="container">
-                    {this.props.boardReducer.columns.map((column) => {
+                    {boardReducer.columns.map((column) => {
                         return (
                             <div className="clm-container" key={column.id} id={column.id}
                                  onDragOver={(e) => e.preventDefault()}
@@ -72,7 +74,7 @@ class App extends Component {
                                     Add task
                                 </button>
                                 <div className="tasks-container mt-1">
-                                    {Object.keys(this.props.boardReducer.tasks).filter(key => column.taskIds.includes(key)).map(item => {
+                                    {Object.keys(boardReducer.tasks).filter(key => column.taskIds.includes(key)).map(item => {
                                         return (
                                             <div id={item} className="task" key={item} draggable
                                                  onDragStart={(e) => this.handleDragStart(e, item)}>
@@ -89,8 +91,8 @@ class App extends Component {
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <p className="task-title">{this.props.boardReducer.tasks[ item ].title}</p>
-                                                <p className="task-description">{this.props.boardReducer.tasks[ item ].description}</p>
+                                                <p className="task-title">{boardReducer.tasks[ item ].title || '-'}</p>
+                                                <p className="task-description">{boardReducer.tasks[ item ].description || '-'}</p>
                                             </div>
                                         )
                                     })}
@@ -102,11 +104,11 @@ class App extends Component {
                 {this.state.showModal && <Modal
                     onClose={() => this.setState({ showModal: false })}
                     onSave={() => {
-                        this.props.saveNewTaskTitle(this.state.taskOpen, this.state.newTitle, this.state.newDescription);
-                        this.setState({ showModal: false })
+                        this.props.saveNewTaskTitle(taskOpen, newTitle, newDescription);
+                        this.setState({ showModal: false, taskOpen: '', newTitle: '', newDescription: '' })
                     }}
-                    newTitle={this.state.newTitle}
-                    newDescription={this.state.newDescription}
+                    newTitle={newTitle}
+                    newDescription={newDescription}
                     titleValue={(newTitle) => this.setState({ newTitle })}
                     descriptionValue={(newDescription) => this.setState({ newDescription })}
                 />
