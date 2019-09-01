@@ -37,7 +37,7 @@ class App extends Component {
     render() {
         const { taskOpen, newTitle, newDescription } = this.state;
         const { boardReducer } = this.props;
-        
+
         return (
             <div className="App">
                 <div className="header">
