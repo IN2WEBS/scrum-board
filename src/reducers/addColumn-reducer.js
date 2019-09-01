@@ -8,7 +8,7 @@ const boardReducer = (state = {
                 ...state,
                 columns: [
                     ...state.columns,
-                    { id: `column-${action.payload}`, title: 'Unnamed Column', taskIds: [] }
+                    { id: `column-${action.payload}`, title: 'Your new Column', taskIds: [] }
                 ]
             };
         case 'DELETE_COLUMN':

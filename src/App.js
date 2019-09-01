@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as allActions from './actions/allActions';
 import { Modal } from './components/modal';
-import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import './style.scss';
 
 const actions = {
     ...allActions,
@@ -35,8 +37,8 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <div className="addColumn" onClick={() => this.props.addColumn()}>
-                    +
+                <div className="header">
+                    <button className="add-column" onClick={() => this.props.addColumn()}>Add Column</button>
                 </div>
 
                 <div className="container">
@@ -48,42 +50,47 @@ class App extends Component {
                                 <div className="clm-header">
                                     <div>
                                         {this.state.renameClm === column.id
-                                            ? <>
-                                            <input type="text"
-                                                   onChange={e => this.setState({ newColumnName: e.target.value })}/>
-                                            <button
-                                                onClick={() => {
-                                                    this.props.renameColumn(column.id, this.state.newColumnName);
-                                                    this.setState({ renameClm: null })
-                                                }}>SAVE
-                                            </button>
-                                            </>
-                                            : <p onClick={() => this.setState({ renameClm: column.id })}>Rename</p>}
+                                            ? <div>
+                                                <input type="text"
+                                                       onChange={e => this.setState({ newColumnName: e.target.value })}/>
+                                                <button
+                                                    onClick={() => {
+                                                        this.props.renameColumn(column.id, this.state.newColumnName);
+                                                        this.setState({ renameClm: null })
+                                                    }}>Save
+                                                </button>
+                                            </div>
+                                            : <button onClick={() => this.setState({ renameClm: column.id })}>
+                                                Rename</button>
+                                        }
                                     </div>
-                                    <p style={{ color: "red" }} onClick={() => this.props.deleteColumn(column.id)}>
-                                        Delete</p>
+                                    <button className="delete" onClick={() => this.props.deleteColumn(column.id)}>
+                                        <FontAwesomeIcon icon={faTrash}/></button>
                                 </div>
                                 <p className="clm-title">{column.title}</p>
-                                <div className="addTask"
-                                     onClick={() => this.props.addTask(column.id)}>
-                                    + ADD TASK
-                                </div>
-                                <div className="tasks-container">
+                                <button className="btn-blue" onClick={() => this.props.addTask(column.id)}>
+                                    Add task
+                                </button>
+                                <div className="tasks-container mt-1">
                                     {Object.keys(this.props.boardReducer.tasks).filter(key => column.taskIds.includes(key)).map(item => {
                                         return (
-                                            <div id={item} draggable onDragStart={(e) => this.handleDragStart(e, item)}
-                                                 className="task" key={item}>
-                                                {this.props.boardReducer.tasks[ item ].title}
-                                                {this.props.boardReducer.tasks[ item ].description}
-                                                <button onClick={() => this.setState({
-                                                    showModal: true,
-                                                    taskOpen: item
-                                                })}>EDIT
-                                                </button>
-                                                <button
-                                                    onClick={() => this.props.deleteTask(item)}
-                                                >DELETE
-                                                </button>
+                                            <div id={item} className="task" key={item} draggable
+                                                 onDragStart={(e) => this.handleDragStart(e, item)}>
+                                                <div className="task-header">
+                                                    <div className="action-buttons">
+                                                        <button onClick={() => this.setState({
+                                                            showModal: true,
+                                                            taskOpen: item
+                                                        })}>EDIT
+                                                        </button>
+                                                        <button
+                                                            onClick={() => this.props.deleteTask(item)}
+                                                        >DELETE
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <p className="task-title">{this.props.boardReducer.tasks[ item ].title}</p>
+                                                <p className="task-description">{this.props.boardReducer.tasks[ item ].description}</p>
                                             </div>
                                         )
                                     })}

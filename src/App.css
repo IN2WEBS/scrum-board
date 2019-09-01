@@ -1,49 +1,12 @@
-.App .addColumn {
-    background: blue;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-}
 
-.container {
-    display: flex;
-    flex-wrap: wrap;
-}
 
-.clm-container {
-    margin: 10px;
-    padding: 10px;
-    background: grey;
-    width: 20%;
-}
 
-.clm-header {
-    display: flex;
-    justify-content: space-between;
-}
 
-.tasks-container {
-    background: red;
-}
 
-.modalTask {
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    position: absolute;
-    background-color: rgba(192, 192, 192, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-}
+/*.tasks-container {*/
+    /*background: red;*/
+/*}*/
 
-.modalTask .content {
-    background: white;
-    border-radius: 5px;
-}
+
+
